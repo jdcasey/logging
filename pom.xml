@@ -20,9 +20,11 @@
   <artifactId>logging</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>Logging Utils</name>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
