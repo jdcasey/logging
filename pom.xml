@@ -35,8 +35,8 @@
   </properties>
   
   <scm>
-    <connection>http://jdcasey@github.com/jdcasey/logging.git</connection>
-    <developerConnection>git@github.com:jdcasey/logging.git</developerConnection>
+    <connection>scm:git:http://jdcasey@github.com/jdcasey/logging.git</connection>
+    <developerConnection>scm:git:git@github.com:jdcasey/logging.git</developerConnection>
     <url>http://github.com/jdcasey/logging</url>
   </scm>
 
