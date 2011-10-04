@@ -33,6 +33,12 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  
+  <scm>
+    <connection>http://jdcasey@github.com/jdcasey/logging.git</connection>
+    <developerConnection>git@github.com:jdcasey/logging.git</developerConnection>
+    <url>http://github.com/jdcasey/logging</url>
+  </scm>
 
   <dependencies>
     <dependency>
