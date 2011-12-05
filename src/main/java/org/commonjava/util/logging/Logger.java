@@ -1,22 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2011  John Casey
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public
- * License along with this program.  If not, see 
- * <http://www.gnu.org/licenses/>.
- ******************************************************************************/
-/*
- * Copyright 2011 Red Hat, Inc.
+ * Copyright 2011 John Casey
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-
+ ******************************************************************************/
 package org.commonjava.util.logging;
 
 import java.text.MessageFormat;
@@ -63,7 +45,7 @@ public final class Logger
         return logger;
     }
 
-    public Logger debug( final String format, final Object...params )
+    public Logger debug( final String format, final Object... params )
     {
         if ( logger.isDebugEnabled() )
         {
@@ -73,7 +55,7 @@ public final class Logger
         return this;
     }
 
-    public Logger debug( final String format, final Throwable error, final Object...params )
+    public Logger debug( final String format, final Throwable error, final Object... params )
     {
         if ( logger.isDebugEnabled() )
         {
@@ -83,7 +65,7 @@ public final class Logger
         return this;
     }
 
-    public Logger error( final String format, final Object...params )
+    public Logger error( final String format, final Object... params )
     {
         if ( logger.isErrorEnabled() )
         {
@@ -93,7 +75,7 @@ public final class Logger
         return this;
     }
 
-    public Logger error( final String format, final Throwable error, final Object...params )
+    public Logger error( final String format, final Throwable error, final Object... params )
     {
         if ( logger.isErrorEnabled() )
         {
@@ -103,7 +85,7 @@ public final class Logger
         return this;
     }
 
-    public Logger info( final String format, final Object...params )
+    public Logger info( final String format, final Object... params )
     {
         if ( logger.isInfoEnabled() )
         {
@@ -113,7 +95,7 @@ public final class Logger
         return this;
     }
 
-    public Logger info( final String format, final Throwable error, final Object...params )
+    public Logger info( final String format, final Throwable error, final Object... params )
     {
         if ( logger.isInfoEnabled() )
         {
@@ -123,7 +105,7 @@ public final class Logger
         return this;
     }
 
-    public Logger trace( final String format, final Object...params )
+    public Logger trace( final String format, final Object... params )
     {
         if ( logger.isTraceEnabled() )
         {
@@ -133,7 +115,7 @@ public final class Logger
         return this;
     }
 
-    public Logger trace( final String format, final Throwable error, final Object...params )
+    public Logger trace( final String format, final Throwable error, final Object... params )
     {
         if ( logger.isTraceEnabled() )
         {
@@ -143,7 +125,7 @@ public final class Logger
         return this;
     }
 
-    public Logger warn( final String format, final Object...params )
+    public Logger warn( final String format, final Object... params )
     {
         if ( logger.isWarnEnabled() )
         {
@@ -153,7 +135,7 @@ public final class Logger
         return this;
     }
 
-    public Logger warn( final String format, final Throwable error, final Object...params )
+    public Logger warn( final String format, final Throwable error, final Object... params )
     {
         if ( logger.isWarnEnabled() )
         {
