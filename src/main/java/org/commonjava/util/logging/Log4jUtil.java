@@ -18,14 +18,14 @@ package org.commonjava.util.logging;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Category;
 import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
+import org.apache.log4j.PatternLayout;
 import org.apache.log4j.spi.Configurator;
 import org.apache.log4j.spi.LoggerRepository;
 
@@ -34,18 +34,19 @@ public class Log4jUtil
 
     public static void configure( final Level level )
     {
-        configure( level, Collections.<String, Level> emptyMap() );
+        configure( level, "%5p [%l] - %m%n" );
     }
 
     // TODO: Level map doesn't work (yet)
-    public static void configure( final Level level, final Map<String, Level> customLevels )
+    public static void configure( final Level level, final String pattern )
     {
         final Configurator log4jConfigurator = new Configurator()
         {
             @Override
             public void doConfigure( final URL notUsed, final LoggerRepository repo )
             {
-                final ConsoleAppender cAppender = new ConsoleAppender( new SimpleLayout() );
+                final Layout layout = new PatternLayout( pattern );
+                final ConsoleAppender cAppender = new ConsoleAppender( layout );
                 cAppender.setThreshold( Level.ALL );
 
                 repo.setThreshold( level );
@@ -69,13 +70,6 @@ public class Log4jUtil
                 for ( final Category cat : cats )
                 {
                     cat.setLevel( level );
-                }
-
-                for ( final Map.Entry<String, Level> customEntry : customLevels.entrySet() )
-                {
-                    final String key = customEntry.getKey();
-                    final Logger logger = repo.getLogger( key );
-                    logger.setLevel( customEntry.getValue() );
                 }
             }
         };
