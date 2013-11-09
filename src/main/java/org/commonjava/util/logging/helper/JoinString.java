@@ -49,10 +49,11 @@ public class JoinString
             final StringBuilder sb = new StringBuilder();
             for ( final Object item : items )
             {
-                if ( sb.length() < 1 )
+                if ( sb.length() > 0 )
                 {
                     sb.append( joint );
                 }
+
                 sb.append( item );
             }
 

@@ -16,24 +16,39 @@
 package org.commonjava.util.logging;
 
 import org.apache.log4j.Level;
+import org.slf4j.spi.LocationAwareLogger;
 
 public final class Logger
 {
 
     public enum LogLevel
     {
-        TRACE( Level.TRACE ), DEBUG( Level.DEBUG ), INFO( Level.INFO ), ERROR( Level.ERROR ), WARN( Level.WARN );
+        /* @formatter:off */
+        TRACE( Level.TRACE, LocationAwareLogger.TRACE_INT ), 
+        DEBUG( Level.DEBUG, LocationAwareLogger.DEBUG_INT ), 
+        INFO( Level.INFO, LocationAwareLogger.INFO_INT ), 
+        ERROR( Level.ERROR, LocationAwareLogger.ERROR_INT ), 
+        WARN( Level.WARN, LocationAwareLogger.WARN_INT );
+        /* @formatter:on */
 
         private Level lvl;
 
-        LogLevel( final Level lvl )
+        private int slvl;
+
+        LogLevel( final Level lvl, final int slvl )
         {
             this.lvl = lvl;
+            this.slvl = slvl;
         }
 
         public Level log4jLevel()
         {
             return lvl;
+        }
+
+        public int slf4jLevel()
+        {
+            return slvl;
         }
     }
 

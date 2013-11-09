@@ -23,14 +23,27 @@ public final class LogEntry
 
     private String message;
 
-    public LogEntry( final LogLevel level, final String loggerName, final String format, final Throwable error, final Object... params )
+    private final String className;
+
+    private final String threadName;
+
+    public LogEntry( final StackTraceElement frame, final LogLevel level, final String loggerName, final String format, final Throwable error,
+                     final Object... params )
     {
+        this.className = frame.getClassName();
+        this.threadName = Thread.currentThread()
+                                .getName();
         this.error = error;
         this.params = params;
         serial = SER_SEED++;
         this.level = level;
         this.loggerName = loggerName;
         this.format = format;
+    }
+
+    public String getClassName()
+    {
+        return className;
     }
 
     public long getSerial()
@@ -99,6 +112,11 @@ public final class LogEntry
     public String toString()
     {
         return String.format( "[%s] %s", level, formatMessage() );
+    }
+
+    public String getThreadName()
+    {
+        return threadName;
     }
 
 }

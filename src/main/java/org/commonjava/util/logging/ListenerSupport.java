@@ -9,8 +9,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
 import org.commonjava.util.logging.Logger.LogLevel;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.spi.LocationAwareLogger;
 
 public class ListenerSupport
 {
@@ -77,18 +77,24 @@ public class ListenerSupport
 
     public void message( final LogLevel level, final String loggerName, final String format, final Object... params )
     {
+        final StackTraceElement frame = Thread.currentThread()
+                                              .getStackTrace()[3];
+
         synchronized ( buffer )
         {
-            buffer.add( new LogEntry( level, loggerName, format, null, params ) );
+            buffer.add( new LogEntry( frame, level, loggerName, format, null, params ) );
             buffer.notifyAll();
         }
     }
 
     public void message( final LogLevel level, final String loggerName, final String format, final Throwable error, final Object... params )
     {
+        final StackTraceElement frame = Thread.currentThread()
+                                              .getStackTrace()[3];
+
         synchronized ( buffer )
         {
-            buffer.add( new LogEntry( level, loggerName, format, error, params ) );
+            buffer.add( new LogEntry( frame, level, loggerName, format, error, params ) );
             buffer.notifyAll();
         }
     }
@@ -167,45 +173,20 @@ public class ListenerSupport
         @Override
         public void newMessages( final List<LogEntry> pending )
         {
+            final String oldName = Thread.currentThread()
+                                         .getName();
             for ( final LogEntry entry : pending )
             {
-                final Logger logger = LoggerFactory.getLogger( entry.getLoggerName() );
-                switch ( entry.getLevel() )
-                {
-                    case DEBUG:
-                        if ( logger.isDebugEnabled() )
-                        {
-                            logger.debug( entry.formatMessage(), entry.getError() );
-                        }
-                        break;
-                    case ERROR:
-                        if ( logger.isErrorEnabled() )
-                        {
-                            logger.error( entry.formatMessage(), entry.getError() );
-                        }
-                        break;
-                    case INFO:
-                        if ( logger.isInfoEnabled() )
-                        {
-                            logger.info( entry.formatMessage(), entry.getError() );
-                        }
-                        break;
-                    case TRACE:
-                        if ( logger.isTraceEnabled() )
-                        {
-                            logger.trace( entry.formatMessage(), entry.getError() );
-                        }
-                        break;
-                    case WARN:
-                        if ( logger.isWarnEnabled() )
-                        {
-                            logger.warn( entry.formatMessage(), entry.getError() );
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                Thread.currentThread()
+                      .setName( entry.getThreadName() );
+
+                final LocationAwareLogger logger = (LocationAwareLogger) LoggerFactory.getLogger( entry.getLoggerName() );
+
+                logger.log( null, entry.getClassName(), entry.getLevel()
+                                                             .slf4jLevel(), entry.formatMessage(), null, entry.getError() );
             }
+            Thread.currentThread()
+                  .setName( oldName );
         }
 
     }
