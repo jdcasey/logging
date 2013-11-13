@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.commonjava.util.logging.helper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -27,13 +28,13 @@ public class JoinString
 
     public JoinString( final String joint, final Collection<?> items )
     {
-        this.items = items;
+        this.items = items == null ? null : new ArrayList<>( items );
         this.joint = joint;
     }
 
     public JoinString( final String joint, final Object... items )
     {
-        this.items = Arrays.asList( items );
+        this.items = items == null ? null : Arrays.asList( items );
         this.joint = joint;
     }
 
