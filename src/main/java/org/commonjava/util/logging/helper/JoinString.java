@@ -28,7 +28,7 @@ public class JoinString
 
     public JoinString( final String joint, final Collection<?> items )
     {
-        this.items = items == null ? null : new ArrayList<>( items );
+        this.items = items == null ? null : new ArrayList<Object>( items );
         this.joint = joint;
     }
 

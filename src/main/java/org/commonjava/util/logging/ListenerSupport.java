@@ -17,9 +17,9 @@ public class ListenerSupport
 
     private final ExecutorService executor;
 
-    private final List<LogEntry> buffer = new ArrayList<>();
+    private final List<LogEntry> buffer = new ArrayList<LogEntry>();
 
-    private final Set<LogListener> listeners = new LinkedHashSet<>();
+    private final Set<LogListener> listeners = new LinkedHashSet<LogListener>();
 
     private static ListenerSupport instance;
 
@@ -140,7 +140,7 @@ public class ListenerSupport
                         }
                     }
 
-                    pending = new ArrayList<>( buffer );
+                    pending = new ArrayList<LogEntry>( buffer );
                     buffer.clear();
                 }
 
@@ -149,7 +149,7 @@ public class ListenerSupport
                     List<LogListener> listeners;
                     synchronized ( this.listeners )
                     {
-                        listeners = new ArrayList<>( this.listeners );
+                        listeners = new ArrayList<LogListener>( this.listeners );
                     }
 
                     for ( final LogListener listener : listeners )
