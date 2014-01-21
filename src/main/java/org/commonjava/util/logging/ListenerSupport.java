@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
 import org.commonjava.util.logging.Logger.LogLevel;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.spi.LocationAwareLogger;
 
@@ -180,10 +181,81 @@ public class ListenerSupport
                 Thread.currentThread()
                       .setName( entry.getThreadName() );
 
-                final LocationAwareLogger logger = (LocationAwareLogger) LoggerFactory.getLogger( entry.getLoggerName() );
+                final Logger lgr = LoggerFactory.getLogger( entry.getLoggerName() );
+                if ( lgr instanceof LocationAwareLogger )
+                {
+                    switch ( entry.getLevel() )
+                    {
+                        case DEBUG:
+                            if ( !lgr.isDebugEnabled() )
+                            {
+                                return;
+                            }
+                        case ERROR:
+                            if ( !lgr.isErrorEnabled() )
+                            {
+                                return;
+                            }
+                        case TRACE:
+                            if ( !lgr.isTraceEnabled() )
+                            {
+                                return;
+                            }
+                        case WARN:
+                            if ( !lgr.isWarnEnabled() )
+                            {
+                                return;
+                            }
+                        case INFO:
+                        default:
+                            if ( !lgr.isInfoEnabled() )
+                            {
+                                return;
+                            }
+                    }
 
-                logger.log( null, entry.getClassName(), entry.getLevel()
-                                                             .slf4jLevel(), entry.formatMessage(), null, entry.getError() );
+                    final LocationAwareLogger logger = (LocationAwareLogger) LoggerFactory.getLogger( entry.getLoggerName() );
+
+                    logger.log( null, entry.getClassName(), entry.getLevel()
+                                                                 .slf4jLevel(), entry.formatMessage(), null, entry.getError() );
+                }
+                else
+                {
+                    switch ( entry.getLevel() )
+                    {
+                        case DEBUG:
+                            if ( lgr.isDebugEnabled() )
+                            {
+                                lgr.debug( entry.formatMessage() );
+                            }
+                            break;
+                        case ERROR:
+                            if ( lgr.isErrorEnabled() )
+                            {
+                                lgr.error( entry.formatMessage() );
+                            }
+                            break;
+                        case TRACE:
+                            if ( lgr.isTraceEnabled() )
+                            {
+                                lgr.trace( entry.formatMessage() );
+                            }
+                            break;
+                        case WARN:
+                            if ( lgr.isWarnEnabled() )
+                            {
+                                lgr.warn( entry.formatMessage() );
+                            }
+                            break;
+                        case INFO:
+                        default:
+                            if ( lgr.isInfoEnabled() )
+                            {
+                                lgr.info( entry.formatMessage() );
+                            }
+                            break;
+                    }
+                }
             }
             Thread.currentThread()
                   .setName( oldName );
